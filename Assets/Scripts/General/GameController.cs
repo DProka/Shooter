@@ -16,13 +16,19 @@ public class GameController : MonoBehaviour
     [Header("Enemy")]
 
     [SerializeField] EnemyController enemyController;
-    
+
+    [Header("Ground")]
+
+    [SerializeField] GroundController groundController;
+
     void Start()
     {
         playerController.Init(playerBulletController);
         playerBulletController.Init(enemyController);
 
         enemyController.Init(playerController);
+
+        //groundController.Init(playerBulletController.transform.position);
     }
 
     void FixedUpdate()
@@ -31,6 +37,8 @@ public class GameController : MonoBehaviour
         playerBulletController.UpdateController();
 
         enemyController.UpdateEnemies();
+
+        //groundController.UpdateController();
     }
 
 }

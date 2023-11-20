@@ -12,6 +12,10 @@ public class EnemyGeneral : MonoBehaviour
     private float currentHealth;
     private bool isAlive;
 
+    [SerializeField] float agressionTime;
+    private bool isAgressive;
+    private float agroTimer;
+
     private EnemyMovement moveScript;
     private EnemyAttack attackScript;
     private CapsuleCollider enemyCollider;
@@ -46,6 +50,7 @@ public class EnemyGeneral : MonoBehaviour
     {
         if (isAlive)
         {
+            UpdateAgressionTimer();
             moveScript.UpdateMovement();
             attackScript.UpdateAttack();
             healthBar.UpdateBar();
@@ -60,6 +65,7 @@ public class EnemyGeneral : MonoBehaviour
     {
         if (isAlive)
         {
+            isAgressive = true;
             currentHealth -= damage;
 
             if (currentHealth > 0)
@@ -84,6 +90,34 @@ public class EnemyGeneral : MonoBehaviour
         healthBar.gameObject.SetActive(false);
     }
     #endregion
+
+    #region Agressive State
+
+    public bool CheacAgressive() { return isAgressive; }
+
+    public void SwitchAgressive(bool _isAgressive) 
+    { 
+        isAgressive = _isAgressive; 
+        
+        if(isAgressive)
+            agroTimer = agressionTime;
+    }
+
+    private void UpdateAgressionTimer()
+    {
+        if (isAgressive)
+        {
+            agroTimer -= Time.fixedDeltaTime;
+            if (agroTimer <= 0)
+                isAgressive = false;
+        }  
+        else
+            agroTimer = agressionTime;
+    }
+
+    #endregion
+
+    #region Animation
 
     public void SetAnimation(string animation)
     {
@@ -119,4 +153,7 @@ public class EnemyGeneral : MonoBehaviour
     }
 
     public Animator GetAnimator() { return animator; }
+
+    #endregion
+
 }

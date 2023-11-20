@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +7,7 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] PlayerBulletController bulletController;
     [SerializeField] Transform firepoint;
     [SerializeField] PlayerBulletScript bulletPrefab;
+    [SerializeField] LayerMask enemyLayer;
     [SerializeField] int maxAmmo;
     [SerializeField] float timeBetweenShoots;
     [SerializeField] float timeToReload;

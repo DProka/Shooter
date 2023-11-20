@@ -5,14 +5,16 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private float speed = 0.5f;
-    private LayerMask layerMask;
+    private LayerMask groundLayer;
+    private LayerMask enemyLayer;
     private Animator playerAnimator;
     
-    public void Init(Animator animator, float _speed, LayerMask _layerMask)
+    public void Init(Animator animator, float _speed, LayerMask _layerMask, LayerMask _enemyLayer)
     {
         playerAnimator = animator;
         speed = _speed;
-        layerMask = _layerMask;
+        groundLayer = _layerMask;
+        enemyLayer = _enemyLayer;
     }
 
     public void UpdateMovement()
@@ -41,14 +43,28 @@ public class PlayerMovement : MonoBehaviour
     private void AimTowardMouse()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hitTnfo;
 
-        if(Physics.Raycast(ray, out RaycastHit hitTnfo, Mathf.Infinity, layerMask))
+        if (Physics.Raycast(ray, out hitTnfo, Mathf.Infinity, groundLayer))
         {
             Vector3 direction = hitTnfo.point - transform.position;
             direction.y = 0f;
             direction.Normalize();
             transform.forward = direction;
             Debug.DrawRay(transform.position, direction, Color.green);
+        }
+
+        if (Physics.Raycast(ray, out hitTnfo, Mathf.Infinity, enemyLayer))
+        {
+            Vector3 enemyPosition = hitTnfo.transform.position;
+
+            Vector3 lookDirection = enemyPosition - transform.position;
+            lookDirection.y = 0;
+
+            if (lookDirection != Vector3.zero)
+            {
+                transform.rotation = Quaternion.LookRotation(lookDirection);
+            }
         }
     }
 }

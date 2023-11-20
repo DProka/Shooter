@@ -9,12 +9,13 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
 
     [SerializeField] float speed = 0.5f;
-    [SerializeField] LayerMask layerMask;
+    [SerializeField] LayerMask groundLayer;
 
     private PlayerMovement playerMovement;
 
     [Header("Shooting")]
 
+    [SerializeField] LayerMask enemyLayer;
     private PlayerShooting playerShooting;
     private PlayerBulletController bulletController;
 
@@ -23,7 +24,7 @@ public class PlayerController : MonoBehaviour
         bulletController = _bulletController;
 
         playerMovement = GetComponent<PlayerMovement>();
-        playerMovement.Init(playerAnimator, speed, layerMask);
+        playerMovement.Init(playerAnimator, speed, groundLayer, enemyLayer);
 
         playerShooting = GetComponent<PlayerShooting>();
         playerShooting.Init(playerAnimator);

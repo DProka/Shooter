@@ -31,7 +31,7 @@ public class GameController : MonoBehaviour
         //groundController.Init(playerBulletController.transform.position);
     }
 
-    void FixedUpdate()
+    void Update()
     {
         playerController.PlayerUpdate();
         playerBulletController.UpdateController();
@@ -39,6 +39,11 @@ public class GameController : MonoBehaviour
         enemyController.UpdateEnemies();
 
         //groundController.UpdateController();
+    }
+
+    private void LateUpdate()
+    {
+        playerController.PlayerLateUpdate();
     }
 
 }

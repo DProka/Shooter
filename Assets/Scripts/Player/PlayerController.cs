@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] Animator playerAnimator;
+    
+    private PlayerFieldOfView fieldOfView;
  
     [Header("Movement")]
 
@@ -23,6 +25,9 @@ public class PlayerController : MonoBehaviour
     {
         bulletController = _bulletController;
 
+        fieldOfView = GetComponent<PlayerFieldOfView>();
+        fieldOfView.Init();
+
         playerMovement = GetComponent<PlayerMovement>();
         playerMovement.Init(playerAnimator, speed, groundLayer, enemyLayer);
 
@@ -35,6 +40,11 @@ public class PlayerController : MonoBehaviour
         playerMovement.UpdateMovement();
 
         playerShooting.UpdateShooting();
+    }
+    
+    public void PlayerLateUpdate()
+    {
+        fieldOfView.UpdateView();
     }
 
     
